@@ -47,9 +47,15 @@ padding-top: 6px ;
 }
 
 .primary-button{
-  background-color: #DB4444;
+  background-color: #db4444;
   width: 234px ;
   height: 56px ;
   border-radius: 4px ;
   color: white;
+}
+
+.mantine-Input-input{
+  width: 243px ;
+  background-color: #f5f5f5;
+  border: none;
 }

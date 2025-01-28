@@ -5,7 +5,10 @@ module.exports = {
     './web/src/**/*.scss',
   ],
   theme: {
-    extend: {},
+    extend: {
+
+
+    },
   },
   plugins: [],
 };

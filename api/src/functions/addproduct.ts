@@ -2,10 +2,7 @@ import { db } from 'src/lib/db'
 
 export const handler = async (event) => {
   try {
-    // Parse the JSON request body
     const data = JSON.parse(event.body)
-
-    // Validate the input (optional but recommended)
     if (!data.name || !data.description || !data.price) {
       return {
         statusCode: 400,
@@ -14,8 +11,6 @@ export const handler = async (event) => {
         }),
       }
     }
-
-
     const product = await db.product.create({
       data: {
         name: data.name,
@@ -27,7 +22,6 @@ export const handler = async (event) => {
       },
     })
 
-    // Return the created product
     return {
       statusCode: 201,
       body: JSON.stringify(product),

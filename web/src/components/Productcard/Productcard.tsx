@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div>
       <div className="product-card relative h-[300px] w-[300px] rounded-sm bg-[#F5F5F5]">
-        <div className="text absolute top-[8px] ml-[8px] w-[40px] rounded-sm bg-[#DB4444] text-white">
+        <div className="text absolute top-[8px] ml-[8px] w-[40px] rounded-sm bg-[#db4444] text-white">
           <p className="ml-2 text-[14px]">{discount}%</p>
         </div>
         <div className="flex flex-col">
@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="flex w-[300px] flex-col gap-2 ">
         <p className="mt-4 font-semibold">{productName}</p>
         <div className="flex flex-row gap-2">
-          <p className="font-semibold text-[#DB4444] ">
+          <p className="font-semibold text-[#db4444] ">
             ${originalPrice - (discount / 100) * 100}
           </p>
           <p className="originalprice semi-bold font-semibold text-[#AAAAAA] line-through">{`$${originalPrice}`}</p>
