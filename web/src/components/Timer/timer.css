@@ -1,0 +1,36 @@
+.counter {
+  margin: 0 -5px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.entry-title{
+  font-size:12px;
+}
+.count {
+  color: black;
+  display: block;
+  font-size: 2em;
+  line-height: 2.4em;  text-align: center;
+  top: 0;
+  width: 100%;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+.time-value{
+  font-size: 30px;
+  font-weight: bold;
+}
+
