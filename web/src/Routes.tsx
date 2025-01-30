@@ -6,6 +6,7 @@ const Routes = () => {
   return (
     <AuthProvider>
       <Router>
+        <Route path="/watchlist" page={WatchlistPage} name="watchlist" />
         <Route path="/login" page={LoginPage} name="login" />
         <Route path="/signup" page={SignupPage} name="signup" />
         <Route path="/home" page={HomePage} name="home" />
