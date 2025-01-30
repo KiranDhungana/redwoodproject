@@ -2,12 +2,13 @@ import React from 'react'
 
 interface ButtonProps {
   label: string
-  onClick: () => void
+  className? :string
+  type ?:string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ label, }) => {
   return (
-    <button className="primary-button" onClick={onClick}>
+    <button className="primary-button " >
       {label}
     </button>
   )

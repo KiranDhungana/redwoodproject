@@ -26,6 +26,7 @@ export const handler = async (event) => {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
+        ...corsHeaders
       },
       body: JSON.stringify({ error: 'Failed to fetch products' }),
     };

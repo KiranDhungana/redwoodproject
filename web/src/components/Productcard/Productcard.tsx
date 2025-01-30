@@ -4,6 +4,9 @@ import Eye from '../../../public/images/icons/eye.svg'
 import Review from '../../../public/images/icons/review.png'
 
 import React, { useState } from 'react'
+import EyeImageViewer from '../Modal/Modal'
+import axios from 'axios'
+import Toster from '../Toster/Toster'
 
 interface ProductCardProps {
   discount: number
@@ -12,6 +15,7 @@ interface ProductCardProps {
   originalPrice: number
   reviewCount: number
   reviewStars: number
+  id:number
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -21,12 +25,40 @@ const ProductCard: React.FC<ProductCardProps> = ({
   originalPrice,
   reviewCount,
   reviewStars,
+  id
 }) => {
   const [isFavourite, setIsFavourite] = useState(false)
 
   const toggleFavourite = () => {
     setIsFavourite((prev) => !prev)
   }
+  const addToCart = async (productId: number) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        console.error('User not authenticated')
+        return
+      }
+      const response = await axios.post(
+        'http://localhost:8915/addtocart',
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (response.status === 201) {
+        console.log('Product added to cart successfully')
+        Toster({ message: response.data.message, title: 'Success' })
+      }
+    } catch (error) {
+      console.error('Error adding product to cart:', error)
+        Toster({ message: error.response.data.message, title: 'Failure' })
+    }
+  }
+
   return (
     <div>
       <div className="product-card relative h-[300px] w-[300px] rounded-sm bg-[#F5F5F5]">
@@ -44,18 +76,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
               alt="Favourite"
             />
           </div>
-          <div className=" absolute right-[8px] top-[48px] h-[30px] w-[30px] rounded-full bg-white hover:cursor-pointer">
-            <img
-              className="absolute left-[3px] top-[3px]"
-              src={Eye}
-              alt="Eye"
-            />
-          </div>
+          <EyeImageViewer imageSrc={productImage} />
         </div>
         <div className="absolute left-[30%] top-[20%] h-[172px] w-[172px]">
           <img src={productImage} alt={productName} />
         </div>
-        <div className="add-to-cart">
+        <div onClick={() => addToCart(id)} className="add-to-cart">
           <p className="add-to-cart-text">Add to cart</p>
         </div>
       </div>

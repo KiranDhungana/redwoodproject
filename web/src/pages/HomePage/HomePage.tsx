@@ -16,6 +16,8 @@ import Chair from '../../../public/images/productimages/chair.png'
 import ArrowLeft from '../../../public/images/icons/arrowleft.png'
 import ArrowRight from '../../../public/images/icons/arrowright.png'
 import Button from 'src/components/Button/Button'
+import Modalcomponent from 'src/components/Modal/Modal'
+import EyeImageViewer from 'src/components/Modal/Modal'
 
 const navLinks = [
   { label: 'Womens Fashion', href: '#required-for-focus' },
@@ -31,11 +33,12 @@ const navLinks = [
 const HomePage = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+  const scrollRef = useRef(null)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8912/getproduct', {
+        const response = await axios.get('http://localhost:8915/getproduct', {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -49,18 +52,17 @@ const HomePage = () => {
     }
     fetchProducts()
   }, [])
-   const scrollRef = useRef(null);
 
   const handleScrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 200;
+      scrollRef.current.scrollLeft -= 200
     }
   }
   const handleScrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 200;
+      scrollRef.current.scrollLeft += 200
     }
-  };
+  }
   return (
     <>
       <Metadata title="Home" description="Home page" />
@@ -98,24 +100,33 @@ const HomePage = () => {
           <Label text="Today's"></Label>
         </div>
         <div className="mt-4 flex flex-row items-center justify-between  ">
-          <Timer targetDate="jan 29, 2025" targetTime="18:00:00" />
+          <Timer targetDate="feb 12, 2025" targetTime="18:00:00" />
           <div className="flex flex-row gap-8">
-            <div onClick={handleScrollRight} className=" hover:cursor-pointer h-[40px] w-[40px] rounded-[50px] bg-[#E5E5E5]  ">
-              <img className='ml-[12px] mt-[12px]'  src={ArrowLeft} />
+            <div
+              onClick={handleScrollRight}
+              className=" h-[40px] w-[40px] rounded-[50px] bg-[#E5E5E5] hover:cursor-pointer  "
+            >
+              <img className="ml-[12px] mt-[12px]" src={ArrowLeft} />
             </div>
-
-            <div  onClick={handleScrollLeft} className=" hover:cursor-pointer h-[40px] w-[40px] rounded-[50px] bg-[#E5E5E5]  ">
-              <img className='ml-[12px] mt-[12px]' src={ArrowRight} />
+            <div
+              onClick={handleScrollLeft}
+              className=" h-[40px] w-[40px] rounded-[50px] bg-[#E5E5E5] hover:cursor-pointer  "
+            >
+              <img className="ml-[12px] mt-[12px]" src={ArrowRight} />
             </div>
           </div>
         </div>
         <div className="h-[18px]"></div>
-        <div ref={scrollRef} className="image-slider mt-4 flex  flex-row gap-4 overflow-x-auto  ">
+        <div
+          ref={scrollRef}
+          className="image-slider mt-4 flex  flex-row gap-4 overflow-x-auto  "
+        >
           {loading ? (
             <p>Loading products...</p>
           ) : products.length > 0 ? (
             products.map((product) => (
               <ProductCard
+              id={product.id}
                 key={product.id}
                 discount={product.discountPercentage}
                 productImage={Chair}
@@ -129,10 +140,10 @@ const HomePage = () => {
             <p>No products available</p>
           )}
         </div>
-        <div className='flex flex-row justify-center my-8 ' >
-<Button onClick={()=>{}} label='View All Products' ></Button>
+        <div className="my-8 flex flex-row justify-center ">
+          <Button label="View All Products"></Button>
         </div>
-</div>
+      </div>
     </>
   )
 }
