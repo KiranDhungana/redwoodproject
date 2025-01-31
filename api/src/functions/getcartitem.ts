@@ -39,6 +39,9 @@ export const handler = async (event: any) => {
 
     const cartItems = await db.cartItem.findMany({
       where: { userId: Number(userId) },
+      include: {
+        product: true,
+      },
     })
 
     return {

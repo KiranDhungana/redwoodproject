@@ -37,17 +37,16 @@ const WatchlistPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token')
       try {
-        const response = await axios.get('http://localhost:8915/getcartitem', {
+        const response = await axios.get('http://localhost:8915/getfavitem', {
           headers: {
             'Content-Type': 'application/json',
-            authorization : `Bearer ${token}`
+            authorization: `Bearer ${token}`,
           },
         })
         console.log(response.data)
         setProducts(response.data.cartItems)
-
       } catch (error) {
         console.error('Error fetching products:', error)
       } finally {
@@ -57,16 +56,7 @@ const WatchlistPage = () => {
     fetchProducts()
   }, [])
 
-  const handleScrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 200
-    }
-  }
-  const handleScrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 200
-    }
-  }
+
   return (
     <>
       <Metadata title="Home" description="Home page" />
@@ -82,34 +72,31 @@ const WatchlistPage = () => {
         <div className="flex flex-row gap-4">
           <Label text="My Watchlist"></Label>
         </div>
-        <div className="mt-4 flex flex-row items-center justify-between  ">
-
-        </div>
+        <div className="mt-4 flex flex-row items-center justify-between  "></div>
         <div className="h-[18px]"></div>
         <div
           ref={scrollRef}
-          className="image-slider mt-4 flex  flex-row gap-4 overflow-x-auto  "
+          className="image-slider mt-4 flex flex-row gap-4 overflow-x-auto"
         >
           {loading ? (
             <p>Loading products...</p>
           ) : products.length > 0 ? (
             products.map((product) => (
               <ProductCard
-              id={product.id}
                 key={product.id}
-                discount={product.discountPercentage}
-                productImage={Chair}
-                productName={product.name}
-                originalPrice={product.price}
-                reviewCount={product.review}
-                reviewStars={product.reviewstars}
+                id={product.id}
+                discount={product.product.discountPercentage}
+                productImage={product.product.image || Chair}
+                productName={product.product.name}
+                originalPrice={product.product.price}
+                reviewCount={product.product.review}
+                reviewStars={product.product.reviewstars}
               />
             ))
           ) : (
             <p>No products available</p>
           )}
         </div>
-
       </div>
     </>
   )

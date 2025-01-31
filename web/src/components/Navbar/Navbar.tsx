@@ -5,6 +5,7 @@ import SearchIcon from '../../../public/images/icons/search.svg'
 import User from '../../../public/images/icons/user.svg'
 import { useAuth } from 'src/context/AuthContext'
 import { useState } from 'react'
+import { navigate, routes } from '@redwoodjs/router'
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useAuth()
@@ -45,6 +46,7 @@ const Navbar = () => {
                   alt="favourite_icon"
                 />
                 <img
+                  onClick={()=>{ navigate(routes.cart())}}
                   className="icon-size  hover:cursor-pointer"
                   src={Cart}
                   alt="cart_icon"

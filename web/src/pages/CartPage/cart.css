@@ -1,0 +1,12 @@
+.select-wrapper  .mantine-Select-input{
+  width:50px
+}
+.select-wrapper .mantine-Input-wrapper{
+  width:50px
+}
+
+.apply-coupon-input .mantine-Input-input{
+  background-color: transparent ;
+  border: 1px solid black;
+  height: 56px ;
+}

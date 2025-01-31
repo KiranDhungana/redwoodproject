@@ -19,10 +19,7 @@ export const handler = async (event: any) => {
 
   if (event.httpMethod === 'POST') {
     try {
-      console.log(event)
       const authHeader = event.headers['authorization']
-      console.log("testing header parameter");
-      console.log(authHeader);
       if (!authHeader) {
         return {
           statusCode: 401,
@@ -64,7 +61,9 @@ export const handler = async (event: any) => {
         return {
           statusCode: 400,
           headers: corsHeaders,
-          body: JSON.stringify({ message: 'This product is already in your cart' }),
+          body: JSON.stringify({
+            message: 'This product is already in your Cart',
+          }),
         }
       }
 
@@ -78,13 +77,16 @@ export const handler = async (event: any) => {
       return {
         statusCode: 201,
         headers: corsHeaders,
-        body: JSON.stringify({ message: 'Item added to cart', cartItem }),
+        body: JSON.stringify({ message: 'Item added to Cart', cartItem }),
       }
     } catch (error) {
       return {
         statusCode: 500,
         headers: corsHeaders,
-        body: JSON.stringify({ message: 'Error adding item to cart', error: error.message }),
+        body: JSON.stringify({
+          message: 'Error adding item to cart',
+          error: error.message,
+        }),
       }
     }
   }

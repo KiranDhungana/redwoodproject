@@ -17,9 +17,11 @@ export const handler = async (event: any) => {
     }
   }
 
-  if (event.httpMethod === 'DELETE') {
+  if (event.httpMethod === 'POST') {
     try {
-      const authHeader = event.headers['Authorization']
+      console.log(event)
+ const authHeader = event.headers['authorization']
+      console.log(authHeader);
       if (!authHeader) {
         return {
           statusCode: 401,
@@ -29,8 +31,15 @@ export const handler = async (event: any) => {
       }
 
       const token = authHeader.split(' ')[1]
-      const { userId } = verifyToken(token)
+      if (!token) {
+        return {
+          statusCode: 401,
+          headers: corsHeaders,
+          body: JSON.stringify({ message: 'Token format is incorrect' }),
+        }
+      }
 
+      const { userId } = verifyToken(token)
       if (!userId) {
         return {
           statusCode: 401,
@@ -68,13 +77,16 @@ export const handler = async (event: any) => {
       return {
         statusCode: 200,
         headers: corsHeaders,
-        body: JSON.stringify({ message: 'Item deleted from cart' }),
+        body: JSON.stringify({ message: 'Item deleted from Cart' }),
       }
     } catch (error) {
       return {
         statusCode: 500,
         headers: corsHeaders,
-        body: JSON.stringify({ message: 'Error deleting item from cart', error: error.message }),
+        body: JSON.stringify({
+          message: 'Error deleting item from cart',
+          error: error.message,
+        }),
       }
     }
   }
