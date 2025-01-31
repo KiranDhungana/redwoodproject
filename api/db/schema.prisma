@@ -23,6 +23,15 @@ model UserExample {
   name  String?
 }
 
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  cartItems   CartItem[]
+  favourites  FavouriteItem[]
+}
+
 model Product {
   id                 Int        @id @default(autoincrement())
   name               String
@@ -33,14 +42,7 @@ model Product {
   review             Int        @default(0)
   reviewstars        Float      @default(0)
   cartItems          CartItem[]
-}
-
-model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  cartItems CartItem[]
+  favourites         FavouriteItem[]
 }
 
 model CartItem {
@@ -51,4 +53,13 @@ model CartItem {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model FavouriteItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

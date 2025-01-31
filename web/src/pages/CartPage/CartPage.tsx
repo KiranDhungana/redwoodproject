@@ -68,7 +68,6 @@ const CartPage = () => {
       setLoading(false)
     }
   }
-
   return (
     <>
       <Metadata title="Home" description="Home page" />

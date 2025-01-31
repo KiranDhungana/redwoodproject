@@ -34,28 +34,32 @@ const WatchlistPage = () => {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const scrollRef = useRef(null)
+ const fetchProducts = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get('http://localhost:8915/getfav', {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      setProducts(response.data.favItems);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const token = localStorage.getItem('token')
-      try {
-        const response = await axios.get('http://localhost:8915/getfavitem', {
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Bearer ${token}`,
-          },
-        })
-        console.log(response.data)
-        setProducts(response.data.cartItems)
-      } catch (error) {
-        console.error('Error fetching products:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
+  // Callback function to handle favorite toggle
+  const handleFavouriteToggle = (productId: number) => {
+    fetchProducts(); // Re-fetch the favorite products
+  };
 
   return (
     <>
@@ -83,14 +87,16 @@ const WatchlistPage = () => {
           ) : products.length > 0 ? (
             products.map((product) => (
               <ProductCard
+              fav ={true}
                 key={product.id}
-                id={product.id}
+                id={product.product.id}
                 discount={product.product.discountPercentage}
                 productImage={product.product.image || Chair}
                 productName={product.product.name}
                 originalPrice={product.product.price}
                 reviewCount={product.product.review}
                 reviewStars={product.product.reviewstars}
+                 onFavouriteToggle={handleFavouriteToggle} // Pass the callback
               />
             ))
           ) : (

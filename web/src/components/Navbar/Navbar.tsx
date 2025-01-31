@@ -41,6 +41,7 @@ const Navbar = () => {
             {isAuthenticated ? (
               <div className="flex flex-row gap-4">
                 <img
+                  onClick={()=>{ navigate(routes.watchlist())}}
                   className="icon-size hover:cursor-pointer"
                   src={Heart}
                   alt="favourite_icon"

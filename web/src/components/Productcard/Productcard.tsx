@@ -15,23 +15,38 @@ interface ProductCardProps {
   originalPrice: number
   reviewCount: number
   reviewStars: number
-  id:number
+  id: number
+  fav: boolean
+    onFavouriteToggle: (productId: number) => void; // Add this prop
+
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   discount,
   productImage,
+  onFavouriteToggle, // Destructure the new prop
+
   productName,
   originalPrice,
   reviewCount,
   reviewStars,
-  id
+  id,
+  fav,
 }) => {
   const [isFavourite, setIsFavourite] = useState(false)
 
-  const toggleFavourite = () => {
-    setIsFavourite((prev) => !prev)
-  }
+ const toggleFavourite = (id: number) => {
+    setIsFavourite((prev) => !prev);
+    if (isFavourite || fav) {
+      deleteFromFav(id);
+    } else {
+      addToFav(id);
+    }
+    onFavouriteToggle(id);
+  };
+
+
+
   const addToCart = async (productId: number) => {
     try {
       const token = localStorage.getItem('token')
@@ -55,7 +70,62 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }
     } catch (error) {
       console.error('Error adding product to cart:', error)
-        Toster({ message: error.response.data.message, title: 'Failure' })
+      Toster({ message: error.response.data.message, title: 'Failure' })
+    }
+  }
+
+  const addToFav = async (productId: number) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        console.error('User not authenticated')
+        return
+      }
+      const response = await axios.post(
+        'http://localhost:8915/addfav',
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (response.status === 201) {
+        console.log('Product added to Favourite list successfully')
+        Toster({ message: response.data.message, title: 'Success' })
+      }
+    } catch (error) {
+      console.error('Error adding product to Favourite:', error)
+      Toster({ message: error.response.data.message, title: 'Failure' })
+    }
+  }
+  const deleteFromFav = async (productId: number) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        console.error('User not authenticated')
+        return
+      }
+      const response = await axios.post(
+        'http://localhost:8915/deletefav',
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (response.status === 200) {
+        console.log('product deleted from  Favourite list successfully')
+        Toster({ message: response.data.message, title: 'Success' })
+
+
+      }
+    } catch (error) {
+      console.error('Error adding product to Favourite:', error)
+      Toster({ message: error.response.data.message, title: 'Failure' })
     }
   }
 
@@ -68,11 +138,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="flex flex-col">
           <div
             className="absolute right-[8px] top-[8px] flex h-[30px] w-[30px] items-center justify-center rounded-full bg-white hover:cursor-pointer"
-            onClick={toggleFavourite}
+            onClick={() => {
+              toggleFavourite(id)
+            }}
           >
             <img
               className="h-[24px] w-[24px]"
-              src={isFavourite ? FavouriteFilled : FavouriteOutlined}
+              src={isFavourite || fav ? FavouriteFilled : FavouriteOutlined}
               alt="Favourite"
             />
           </div>
