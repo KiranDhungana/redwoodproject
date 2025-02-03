@@ -9,6 +9,7 @@ import Delete from '../../../public/images/icons/delete.svg'
 import './cart.css'
 import Button from 'src/components/Button/Button'
 import { navigate, routes } from '@redwoodjs/router'
+import axiosInstance from 'src/lib/apiClient'
 
 const CartPage = () => {
   const [products, setProducts] = useState<any[]>([])
@@ -31,14 +32,8 @@ const CartPage = () => {
   }, [products])
 
   const fetchProducts = async () => {
-    const token = localStorage.getItem('token')
     try {
-      const response = await axios.get('http://localhost:8915/getcartitem', {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`,
-        },
-      })
+        const response = await axiosInstance.get('/getcartitem');
       console.log(response.data)
       setProducts(response.data.cartItems || [])
     } catch (error) {
@@ -51,16 +46,7 @@ const CartPage = () => {
   const deleteCart = async (id: number) => {
     const token = localStorage.getItem('token')
     try {
-      const response = await axios.post(
-        'http://localhost:8915/deletecartitem',
-        { productId: id },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      await axiosInstance.post('/deletecartitem',{ productId: id })
       await fetchProducts()
     } catch (error) {
       console.error('Error deleting item from cart:', error)

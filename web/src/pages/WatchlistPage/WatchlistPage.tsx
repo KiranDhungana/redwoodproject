@@ -18,6 +18,8 @@ import ArrowRight from '../../../public/images/icons/arrowright.png'
 import Button from 'src/components/Button/Button'
 import Modalcomponent from 'src/components/Modal/Modal'
 import EyeImageViewer from 'src/components/Modal/Modal'
+import Toster from 'src/components/Toster/Toster'
+import axiosInstance from 'src/lib/apiClient'
 
 const navLinks = [
   { label: 'Womens Fashion', href: '#required-for-focus' },
@@ -37,12 +39,7 @@ const WatchlistPage = () => {
  const fetchProducts = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.get('http://localhost:8915/getfav', {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`,
-        },
-      });
+       const response = await axiosInstance.get('/getfav');
       console.log(response.data);
       setProducts(response.data.favItems);
     } catch (error) {
@@ -56,9 +53,9 @@ const WatchlistPage = () => {
     fetchProducts();
   }, []);
 
-  // Callback function to handle favorite toggle
   const handleFavouriteToggle = (productId: number) => {
-    fetchProducts(); // Re-fetch the favorite products
+  fetchProducts();
+  window.location.reload();
   };
 
   return (
@@ -96,7 +93,7 @@ const WatchlistPage = () => {
                 originalPrice={product.product.price}
                 reviewCount={product.product.review}
                 reviewStars={product.product.reviewstars}
-                 onFavouriteToggle={handleFavouriteToggle} // Pass the callback
+                 onFavouriteToggle={handleFavouriteToggle}
               />
             ))
           ) : (

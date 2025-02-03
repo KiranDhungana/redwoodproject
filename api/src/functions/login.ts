@@ -18,7 +18,8 @@ export const handler = async (event: any) => {
 
   try {
     const body = JSON.parse(event.body)
-    const { user, token } = await authenticateUser({ input: body.data })
+    // console.log(body)
+    const { user, token } = await authenticateUser({ input: body })
     return {
       statusCode: 200,
       headers: {

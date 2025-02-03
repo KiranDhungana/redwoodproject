@@ -24,12 +24,18 @@ const Navbar = () => {
             </a>
             <a className="cursor-pointer hover:underline">Contact</a>
             <a className="cursor-pointer hover:underline">About</a>
-            <a href="/signup" className="cursor-pointer hover:underline">
-              Signup
-            </a>
-            <a href="/login" className="cursor-pointer hover:underline">
-              login
-            </a>
+            {isAuthenticated ? (
+              <div></div>
+            ) : (
+              <div>
+                <a href="/signup" className="cursor-pointer hover:underline">
+                  Signup
+                </a>
+                <a href="/login" className="cursor-pointer hover:underline">
+                  login
+                </a>
+              </div>
+            )}
           </ul>
         </div>
         <div className="flex flex-row gap-8 ">
@@ -41,13 +47,17 @@ const Navbar = () => {
             {isAuthenticated ? (
               <div className="flex flex-row gap-4">
                 <img
-                  onClick={()=>{ navigate(routes.watchlist())}}
+                  onClick={() => {
+                    navigate(routes.watchlist())
+                  }}
                   className="icon-size hover:cursor-pointer"
                   src={Heart}
                   alt="favourite_icon"
                 />
                 <img
-                  onClick={()=>{ navigate(routes.cart())}}
+                  onClick={() => {
+                    navigate(routes.cart())
+                  }}
                   className="icon-size  hover:cursor-pointer"
                   src={Cart}
                   alt="cart_icon"

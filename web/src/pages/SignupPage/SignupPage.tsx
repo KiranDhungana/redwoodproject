@@ -8,6 +8,7 @@ import axios from 'axios'
 import Toster from 'src/components/Toster/Toster'
 import { notifications, Notifications } from '@mantine/notifications'
 import { navigate, routes } from '@redwoodjs/router'
+import axiosInstance from 'src/lib/apiClient'
 
 interface SignupFormData {
   name: string
@@ -24,14 +25,9 @@ const SignupPage = () => {
   const onSubmit = async (data: SignupFormData) => {
     console.log('Form Data Submitted:', data)
     try {
-      const response = await axios.post('http://localhost:8915/signup', {
-        Headers: {
-          'Content-Type': 'application/json',
-        },
-        data,
-      })
+      const response = await axiosInstance.post(`${process.env.REDWOOD_ENV_API_URL}/signup`,data);
       Toster({ message: response.data.message, title: 'Success' })
-      navigate(routes.profile())
+      navigate(routes.login())
     } catch (error) {
       Toster({ message: error.response?.data?.message, title: 'Failure' })
     }

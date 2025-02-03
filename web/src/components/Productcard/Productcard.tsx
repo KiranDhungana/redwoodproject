@@ -16,16 +16,15 @@ interface ProductCardProps {
   reviewCount: number
   reviewStars: number
   id: number
-  fav: boolean
-    onFavouriteToggle: (productId: number) => void; // Add this prop
+  fav?: boolean
+    onFavouriteToggle?: (productId: number) => void; // Add this prop
 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   discount,
   productImage,
-  onFavouriteToggle, // Destructure the new prop
-
+  onFavouriteToggle,
   productName,
   originalPrice,
   reviewCount,
@@ -55,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         return
       }
       const response = await axios.post(
-        'http://localhost:8915/addtocart',
+        `${process.env.REDWOOD_ENV_API_URL}/addtocart`,
         { productId },
         {
           headers: {
@@ -82,7 +81,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         return
       }
       const response = await axios.post(
-        'http://localhost:8915/addfav',
+         `${process.env.REDWOOD_ENV_API_URL}/addfav`,
         { productId },
         {
           headers: {
@@ -108,7 +107,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         return
       }
       const response = await axios.post(
-        'http://localhost:8915/deletefav',
+        `${process.env.REDWOOD_ENV_API_URL}/deletefav`,
         { productId },
         {
           headers: {
@@ -119,7 +118,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       )
       if (response.status === 200) {
         console.log('product deleted from  Favourite list successfully')
-        Toster({ message: response.data.message, title: 'Success' })
+
 
 
       }

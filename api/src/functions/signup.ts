@@ -21,9 +21,8 @@ const handler = async (event: any) => {
   if (event.httpMethod === 'POST') {
     try {
       const body = JSON.parse(event.body)
-      const { email } = body.data
-
-      const existingUser = await getUserByEmail(email)
+      const { email } = body
+        const existingUser = await getUserByEmail(email)
       if (existingUser) {
         return {
           statusCode: 400,
@@ -35,7 +34,7 @@ const handler = async (event: any) => {
         }
       }
 
-      const user = await createUser({ input: body.data })
+      const user = await createUser({ input: body})
       return {
         statusCode: 201,
         headers: {

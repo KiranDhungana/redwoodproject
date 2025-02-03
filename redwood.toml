@@ -14,7 +14,7 @@
     # See https://redwoodjs.com/docs/environment-variables#web
   ]
 [api]
-  port = 8915
+  port = 8916
 [browser]
   open = true
 [notifications]

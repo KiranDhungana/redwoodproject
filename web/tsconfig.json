@@ -29,7 +29,7 @@
       "./node_modules/@types",
       "../node_modules/@testing-library"
     ],
-    "types": ["jest", "jest-dom"],
+    "types": ["jest", "jest-dom","node"],
     "jsx": "preserve"
   },
   "include": [

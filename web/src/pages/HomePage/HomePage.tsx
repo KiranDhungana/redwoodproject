@@ -18,6 +18,7 @@ import ArrowRight from '../../../public/images/icons/arrowright.png'
 import Button from 'src/components/Button/Button'
 import Modalcomponent from 'src/components/Modal/Modal'
 import EyeImageViewer from 'src/components/Modal/Modal'
+import axiosInstance from 'src/lib/apiClient'
 
 const navLinks = [
   { label: 'Womens Fashion', href: '#required-for-focus' },
@@ -38,12 +39,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8915/getproduct', {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        setProducts(response.data)
+      const response = await axiosInstance.get('/getproduct');
+      setProducts(response.data)
       } catch (error) {
         console.error('Error fetching products:', error)
       } finally {
@@ -126,8 +123,9 @@ const HomePage = () => {
           ) : products.length > 0 ? (
             products.map((product) => (
               <ProductCard
-              id={product.id}
-                key={product.id}
+               id={product.id}
+
+               key={product.id}
                 discount={product.discountPercentage}
                 productImage={Chair}
                 productName={product.name}

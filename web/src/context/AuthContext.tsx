@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
       try {
-        const response = await axios.post('http://localhost:8915/tokenverification', { token: storedToken })
+        const response = await axios.post(`${process.env.REDWOOD_ENV_API_URL}/tokenverification`, { token: storedToken })
         if (response.data.valid) {
           setIsAuthenticated(true)
           setToken(storedToken)

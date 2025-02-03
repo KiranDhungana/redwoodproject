@@ -25,12 +25,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     console.log('Form Data Submitted:', data)
     try {
-      const response = await axios.post('http://localhost:8915/login', {
-        Headers: {
-          'Content-Type': 'application/json',
-        },
-        data,
-      })
+       const response  =await axios.post( `${process.env.REDWOOD_ENV_API_URL}/login`,data)
       localStorage.setItem('token', response.data.token)
       const token = response.data.token
       if (token) {
